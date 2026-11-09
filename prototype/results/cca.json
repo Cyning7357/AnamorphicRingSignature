@@ -1,0 +1,36 @@
+{
+  "params": {
+    "n": 256,
+    "m": 1024,
+    "t": 256,
+    "q": 8380417
+  },
+  "multibit_correctness": 1.0,
+  "fo_correctness": 1.0,
+  "fo_malleability_rejected": 1.0,
+  "anamorphic_ciphertext": {
+    "cover_still_decrypts": true,
+    "fo_decaps_rejects": true,
+    "payload_recoverable_only_with_td": true
+  },
+  "oracle_is_lwe_sample_in_s": {
+    "max_residual": 57,
+    "note": "c2 - E^T c1 equals U^T s + noise for c2 = 0"
+  },
+  "sizes": {
+    "ct_bytes": 10240,
+    "c1_bytes": 8192,
+    "c2_bytes": 2048,
+    "wire_bytes_3_per_coeff": 3840
+  },
+  "timing_ms": {
+    "keygen": 63.13299993053079,
+    "encaps": 0.3598649986088276,
+    "decaps": 0.6413299939595163
+  },
+  "conclusion": {
+    "fo_gives": "implicit rejection of modified ciphertexts (CCA-style)",
+    "fo_costs": "the randomness is a function of the message, so the anamorphic carrier disappears and the modification is detected",
+    "oracle": "the decryption oracle reveals U^T s + noise, a public-matrix LWE sample; the payload is protected by LWE/RFinding, not by CCA"
+  }
+}

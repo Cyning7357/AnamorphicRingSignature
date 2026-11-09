@@ -1,0 +1,5 @@
+numpy
+matplotlib
+pillow
+pqcrypto
+fonttools==4.51.0

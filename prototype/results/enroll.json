@@ -1,0 +1,31 @@
+{
+  "backend": "stand-in: X25519 + toy 512-bit RSA",
+  "x25519_rfc7748": true,
+  "kem_agreement": true,
+  "binding": {
+    "transplant_ciphertext": true,
+    "wrong_epoch": true
+  },
+  "header": {
+    "valid": true,
+    "tampered_root": true,
+    "tampered_sigma": true
+  },
+  "end_to_end": {
+    "signature_verifies": true,
+    "payload_recovered": true,
+    "signer_recovered": true,
+    "wrong_member_key_fails": true
+  },
+  "cost": {
+    "c_i_bytes": 32,
+    "mlkem768_ct_bytes": 1088,
+    "root_bytes": 32,
+    "org_sig_bytes": 64,
+    "enroll_ms": 1.740709999576211,
+    "derive_ms": 0.8745979983359575,
+    "publish_ms": 0.46790000051259995,
+    "verify_header_ms": 0.012514996342360973,
+    "org_keygen_ms": 4.924600012600422
+  }
+}

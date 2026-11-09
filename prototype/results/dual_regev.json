@@ -1,0 +1,44 @@
+{
+  "params": {
+    "n": 256,
+    "m": 1024,
+    "q": 8380417,
+    "eta": 1,
+    "noise": 1,
+    "payload_bits": 256,
+    "ct_bytes": 3075
+  },
+  "correctness": {
+    "ok": 1.0,
+    "worst_noise": 60,
+    "q_over_4": 2095104,
+    "noise_margin_ratio": 2.8638196480938418e-05
+  },
+  "cover_independent_of_s": 1.0,
+  "payload_in_s": {
+    "ok": 1.0,
+    "capacity_bits_theory": 5888,
+    "uses_bits": 256
+  },
+  "sizes": {
+    "ct_bytes_wire": 3075,
+    "c1_coeffs": 1024,
+    "c1_bits_per_coeff": 24,
+    "c2_coeffs": 1,
+    "note": "q < 2^24, so 3 bytes per c1 coefficient on the wire"
+  },
+  "timing_ms": {
+    "keygen": 0.7764999754726887,
+    "encrypt": 0.28753799851983786,
+    "decrypt": 0.0013140030205249786,
+    "note": "pure numpy; encryption is one n x m mat-vec"
+  },
+  "comparison": {
+    "structural_stand_in_bytes": 1136,
+    "real_dual_regev_bytes": 3075,
+    "delta": 1939,
+    "ring_base_bytes": 9760,
+    "A_total_structural": 10896,
+    "A_total_real": 12835
+  }
+}

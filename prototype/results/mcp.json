@@ -1,0 +1,80 @@
+{
+  "gateway": {
+    "topology": "gateway",
+    "messages": 5,
+    "log_bytes": 34208,
+    "mean_signature_bytes": 6841.6,
+    "platform": {
+      "sees": "organization only (gateway strips the agent id)",
+      "connections": 2,
+      "credential_scope": "organization",
+      "verified": 5,
+      "failed": 0,
+      "extraction_successes_with_all_sk": 0
+    },
+    "auditor": {
+      "extracted_payload": "FLAG:clause-7-unusual",
+      "signer_index": 1,
+      "signer_org": "OrgA",
+      "signer_matches_index": true
+    },
+    "latency_ms": {
+      "crypto": 18.1858001742512,
+      "simulated_steps": 480,
+      "wall": 506.2794000841677,
+      "crypto_share": 0.03592048219071891
+    }
+  },
+  "credential": {
+    "topology": "credential",
+    "messages": 5,
+    "log_bytes": 34208,
+    "mean_signature_bytes": 6841.6,
+    "platform": {
+      "sees": "organization credential on distinct connections",
+      "connections": 5,
+      "credential_scope": "organization",
+      "verified": 5,
+      "failed": 0,
+      "extraction_successes_with_all_sk": 0
+    },
+    "auditor": {
+      "extracted_payload": "FLAG:clause-7-unusual",
+      "signer_index": 1,
+      "signer_org": "OrgA",
+      "signer_matches_index": true
+    },
+    "latency_ms": {
+      "crypto": 18.30270024947822,
+      "simulated_steps": 480,
+      "wall": 505.1412000320852,
+      "crypto_share": 0.03623283994319942
+    }
+  },
+  "direct": {
+    "topology": "direct",
+    "messages": 5,
+    "log_bytes": 34208,
+    "mean_signature_bytes": 6841.6,
+    "platform": {
+      "sees": "organization and agent id (transport metadata)",
+      "connections": 3,
+      "credential_scope": "organization+agent",
+      "verified": 5,
+      "failed": 0,
+      "extraction_successes_with_all_sk": 0
+    },
+    "auditor": {
+      "extracted_payload": "FLAG:clause-7-unusual",
+      "signer_index": 1,
+      "signer_org": "OrgA",
+      "signer_matches_index": true
+    },
+    "latency_ms": {
+      "crypto": 16.559500014409423,
+      "simulated_steps": 480,
+      "wall": 503.0536998528987,
+      "crypto_share": 0.03291795690848054
+    }
+  }
+}

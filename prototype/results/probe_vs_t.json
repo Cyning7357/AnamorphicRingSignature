@@ -1,0 +1,26 @@
+{
+  "18": {
+    "argmax_acc": 0.11333333333333333,
+    "argmin_acc": 0.32,
+    "chance": 0.25,
+    "signature_bytes": 9248
+  },
+  "19": {
+    "argmax_acc": 0.15,
+    "argmin_acc": 0.2966666666666667,
+    "chance": 0.25,
+    "signature_bytes": 9760
+  },
+  "20": {
+    "argmax_acc": 0.18666666666666668,
+    "argmin_acc": 0.26,
+    "chance": 0.25,
+    "signature_bytes": 10272
+  },
+  "21": {
+    "argmax_acc": 0.20333333333333334,
+    "argmin_acc": 0.2633333333333333,
+    "chance": 0.25,
+    "signature_bytes": 10784
+  }
+}

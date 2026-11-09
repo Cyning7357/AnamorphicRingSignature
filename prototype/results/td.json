@@ -1,0 +1,33 @@
+{
+  "params": {
+    "n": 384,
+    "m_bar": 192,
+    "m": 5184,
+    "q": 8192,
+    "k": 13,
+    "capacity_bits": 384
+  },
+  "correctness": {
+    "cover_decryption": 1.0,
+    "trapdoor_recovery": 1.0
+  },
+  "sizes": {
+    "c1_coeffs": 5184,
+    "bits_per_coeff": 13,
+    "ct_bytes_bitpacked": 8426,
+    "ct_bytes_byte_aligned": 10370,
+    "square_dual_regev_bytes_at_same_n": 1155,
+    "blowup_vs_square": 13.5
+  },
+  "timing_ms": {
+    "keygen": 361.9460999034345,
+    "encrypt": 2.630899997893721,
+    "decrypt_cover": 0.0031139981001615524,
+    "recover_s": 4.228180006612092
+  },
+  "reading": {
+    "what_is_shown": "cover decryption with sk=e is independent of s; the holder of R recovers s (the payload) from c1",
+    "what_is_assumed": "a party holding only e cannot recover s (RFinding / LWE); this demo cannot prove hardness",
+    "size_note": "the gadget adds a factor k = log2(q): m = m_bar + n*k, so the carrier is ~k times a square dual-Regev ciphertext"
+  }
+}

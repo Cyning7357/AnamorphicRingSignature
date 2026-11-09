@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.dll
+*.exe
+*.o
+.venv/
+figures/plots/

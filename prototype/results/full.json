@@ -1,0 +1,58 @@
+{
+  "params": {
+    "n": 4,
+    "t": 19,
+    "q": 8380417
+  },
+  "e1_zero_byte": {
+    "pairs": 1000,
+    "size_normal": 9760,
+    "size_attributable": 9760,
+    "all_lengths_equal": true,
+    "normal_verifies": 1.0,
+    "attributable_verifies": 1.0,
+    "seconds": 11.035933900158852
+  },
+  "e2_detectability": {
+    "seconds": 26.776066600112244,
+    "fpe": {
+      "detector_auc": 0.51892,
+      "chi2_vs_uniform": 239.05115789473683,
+      "chi2_normal": 257.29733333333337,
+      "ks_d": 0.00094572368421042,
+      "ks_p": 0.5313137648359318,
+      "lowbit_frac": 0.4998972724780702,
+      "lowbit_normal": 0.499804961622807,
+      "mean_bytes": 7296.0
+    },
+    "lsb": {
+      "detector_auc": 0.97234,
+      "chi2_vs_uniform": 5890.8995087719295,
+      "chi2_normal": 257.29733333333337,
+      "ks_d": 0.0037424616228070584,
+      "ks_p": 2.6460846673209187e-09,
+      "lowbit_frac": 0.5007484923245614,
+      "lowbit_normal": 0.499804961622807,
+      "mean_bytes": 7296.0
+    }
+  },
+  "e3_extraction": {
+    "trials": 300,
+    "correct": 1.0,
+    "probe": {
+      "argmax_acc": 0.15333333333333332,
+      "argmin_acc": 0.33666666666666667,
+      "chance": 0.25
+    }
+  },
+  "e4_robustness": {
+    "framing_returns_bot": 1.0,
+    "transplant_rejected": 1.0,
+    "wrong_root_rejected": 1.0
+  },
+  "e5_link": {
+    "same_agent_same_epoch": 1.0,
+    "different_agent": 0.0,
+    "different_epoch": 0.0
+  }
+}

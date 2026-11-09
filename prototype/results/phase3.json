@@ -1,0 +1,129 @@
+{
+  "params": {
+    "d": 256,
+    "k": 4,
+    "l": 4,
+    "eta": 1,
+    "tau": 39,
+    "t": 19,
+    "n": 4,
+    "q": 8380417,
+    "M": 39,
+    "H": 262144,
+    "log2_box": 19456,
+    "resp_bytes": 2432,
+    "payload_bytes": 32,
+    "epoch": 1,
+    "merkle_root_hex": "550615ec3b3284f9..."
+  },
+  "correctness": {
+    "normal": 1.0,
+    "fpe": 1.0,
+    "salt": 1.0,
+    "ae": 1.0,
+    "tamper_rejected": 1.0,
+    "wrong_epoch_root_rejected": 1.0
+  },
+  "sizes": {
+    "normal": 9760,
+    "B_fpe": 9760,
+    "B_prime_salt": 9824,
+    "A_ae": 10896,
+    "B_link": 9792,
+    "base": 9760,
+    "overhead_B": 0,
+    "overhead_B_prime": 64,
+    "overhead_A": 1136,
+    "overhead_link": 32,
+    "breakdown": "32 + 4 x 2432",
+    "note_A": "A carrier is a 1088 B structural stand-in + 48 B payload; no anamorphic security is instantiated (see README)"
+  },
+  "extraction": {
+    "B_payload_and_signer": 1.0,
+    "B_prime_payload": 1.0,
+    "A_payload": 1.0,
+    "normal_returns_bottom": 1.0
+  },
+  "linkability": {
+    "same_agent_same_epoch": true,
+    "different_agent": false,
+    "different_epoch": false,
+    "tag_bytes": 32
+  },
+  "distribution": {
+    "chi2_df255": {
+      "normal": 219.45,
+      "B": 233.83771929824562,
+      "lsb": 382.29824561403507
+    },
+    "ks_normal_vs_B": {
+      "D": 0.001264391447368396,
+      "p": 0.7389829847561128
+    },
+    "ks_normal_vs_lsb": {
+      "D": 0.002775493421052655,
+      "p": 0.022255754268306924
+    },
+    "lowbit_frac": {
+      "normal": 0.5014431423611111,
+      "B": 0.50205078125
+    },
+    "lowbit_p_B_vs_normal": 0.7941879870675614,
+    "detector_auc_B": 0.46448863636363635,
+    "samples": {
+      "normal": 583680,
+      "B": 583680,
+      "lsb": 583680
+    }
+  },
+  "anonymity_vs_box_width": [
+    {
+      "argmax_acc": 0.12,
+      "argmin_acc": 0.36,
+      "chance": 0.25,
+      "t": 18,
+      "M_over_H": 0.00029754638671875,
+      "shell_prob": 0.26267966818521693
+    },
+    {
+      "argmax_acc": 0.12,
+      "argmin_acc": 0.28,
+      "chance": 0.25,
+      "t": 19,
+      "M_over_H": 0.000148773193359375,
+      "shell_prob": 0.14131667764123512
+    },
+    {
+      "argmax_acc": 0.32,
+      "argmin_acc": 0.36,
+      "chance": 0.25,
+      "t": 20,
+      "M_over_H": 7.43865966796875e-05,
+      "shell_prob": 0.07334570171006716
+    }
+  ],
+  "ring_sweep": [
+    {
+      "n": 2,
+      "size": 4896,
+      "sign_ms": 2.104737501213094
+    },
+    {
+      "n": 4,
+      "size": 9760,
+      "sign_ms": 4.6977874990261625
+    },
+    {
+      "n": 8,
+      "size": 19488,
+      "sign_ms": 9.7399750011391
+    }
+  ],
+  "timing_ms": {
+    "sign": 4.54289999906905,
+    "verify": 3.130566666368395,
+    "extract": 1.887513332379361,
+    "mul_ntt_us": 170.04699999233708,
+    "note": "pure Python/numpy; timings are indicative only"
+  }
+}

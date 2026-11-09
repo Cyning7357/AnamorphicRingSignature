@@ -1,0 +1,103 @@
+(* Symbolic model of the enrollment / provisioning protocol (Section V-D).
+
+   What is modelled:
+     * KEM encapsulation to the extractor's public key, with the shared
+       secret known only to the holder of sk_X;
+     * derivation of the per-member double key dk_i from the shared secret
+       and the context (oid, epoch, i, pk_i);
+     * the organization's signature over the epoch root;
+     * the extractor checking that signature before deriving dk_i;
+     * the payload embedded with FPE under dk_i;
+     * the platform holding every agent secret key (out(c, skA)).
+
+   What is NOT modelled: computational indistinguishability (the anamorphic
+   property), lattice assumptions, probabilities. ProVerif answers the
+   symbolic questions: can the platform derive dk_i or the payload, and does
+   the extractor accept only roots signed by the organization.
+
+   Run: proverif enroll.pv
+*)
+
+free c: channel.
+free cX: channel [private].
+free oid: bitstring.
+free payload: bitstring [private].
+
+type sk.
+type pk.
+type ss.
+type kemct.
+type dk.
+type fct.
+type sig.
+type nonce.
+
+(* KEM: the extractor's key pair, encapsulation, decapsulation *)
+fun pkK(sk): pk.
+fun enc(pk, nonce): kemct.
+fun dec(sk, kemct): ss.
+fun ssOf(nonce): ss.
+equation forall x: sk, n: nonce; dec(x, enc(pkK(x), n)) = ssOf(n).
+
+(* organization signature *)
+fun pkS(sk): pk.
+fun sign(bitstring, sk): sig.
+const ok: bitstring.
+fun check(sig, bitstring, pk): bitstring.
+equation forall m: bitstring, x: sk; check(sign(m, x), m, pkS(x)) = ok.
+
+(* KDF, format-preserving encoding, membership commitment *)
+fun kdf(ss, bitstring): dk.
+fun fpe(dk, nonce, bitstring): fct.
+fun unfpe(dk, fct): bitstring.
+equation forall k: dk, n: nonce, m: bitstring; unfpe(k, fpe(k, n, m)) = m.
+
+fun leaf(pk, kemct): bitstring.
+fun rootOf(bitstring): bitstring.
+
+event AgentEnrolled(pk).
+event OrgApproved(bitstring).
+event ExtractorRead(bitstring).
+
+(* Agent i: encapsulate to pk_X, derive dk_i, publish c_i, sign with dk_i. *)
+let agent(skA: sk, pkX: pk) =
+  new nA: nonce;
+  let cA = enc(pkX, nA) in
+  let dkA = kdf(ssOf(nA), oid) in
+  out(c, (pkK(skA), cA));
+  event AgentEnrolled(pkK(skA));
+  out(c, fpe(dkA, nA, payload)).
+
+(* Organization: commit to the member set and sign the root. *)
+let org(skO: sk) =
+  in(c, (pki: pk, ci: kemct));
+  let rt = rootOf(leaf(pki, ci)) in
+  event OrgApproved(rt);
+  out(c, (pki, ci, rt, sign(rt, skO))).
+
+(* Extractor: check the organization's signature, then derive dk_i. *)
+let extractor(skX: sk, pkO: pk) =
+  in(c, (pki: pk, ci: kemct, rt: bitstring, sg: sig));
+  if check(sg, rt, pkO) = ok then
+    let dkX = kdf(dec(skX, ci), oid) in
+    in(c, ctv: fct);
+    let m = unfpe(dkX, ctv) in
+    event ExtractorRead(rt);
+    out(cX, m).
+
+(* The platform must not learn the payload even though it holds skA. *)
+query attacker(payload).
+
+(* The extractor accepts a root only if the organization signed it. *)
+query rt: bitstring; event(ExtractorRead(rt)) ==> event(OrgApproved(rt)).
+
+process
+  new skA: sk;
+  new skO: sk;
+  new skX: sk;
+  out(c, pkS(skO));
+  out(c, pkK(skX));
+  out(c, skA);                    (* the platform holds the agent's key *)
+  ( agent(skA, pkK(skX))
+  | org(skO)
+  | extractor(skX, pkS(skO)) )
