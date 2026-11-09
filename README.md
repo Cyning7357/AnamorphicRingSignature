@@ -60,6 +60,22 @@ to scripts.
 | enrollment | 1088 B ciphertext, 3309 B ML-DSA signature |
 | agent workflow | 34 KB log, cryptography 16--24 ms |
 
+## C kernel
+
+```
+cd c
+python gen_constants.py          # writes constants.h from the Python parameters
+gcc -O3 -shared -o veil_kernels.dll veil_kernels.c
+cd ../prototype
+python c_kernels.py              # checks equality and benchmarks against NumPy
+```
+
+On some managed Windows environments an application-control policy blocks DLLs
+inside the working tree; loading the same DLL from `%TEMP%` works, and
+`c_kernels.py` falls back to `%TEMP%\veil_kernels.dll` automatically. The C port
+covers the NTT and sparse multiplication only; the projected signing time in the
+paper is an extrapolation, not a measurement of a full C signer.
+
 ## Caveats
 
 - The parameters are chosen for mechanics, not for a security level; see the

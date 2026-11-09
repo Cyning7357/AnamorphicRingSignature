@@ -33,6 +33,12 @@ python cca_demo.py         # FO rejects the anamorphic ciphertext
 python enroll.py           # ML-KEM-768 + ML-DSA-65 enrollment
 python mcp_demo.py         # gateway / credential / direct topologies
 
+cd ../c
+python gen_constants.py    # constants.h for the C kernel
+gcc -O3 -shared -o "$TEMP/veil_kernels.dll" veil_kernels.c   # or into c/
+cd ../prototype
+python c_kernels.py        # equality checks + C-vs-NumPy benchmark
+
 cd ../proverif
 proverif enroll.pv            # payload secrecy true, correspondence true
 proverif enroll_compromised.pv  # payload secrecy false (negative control)
@@ -63,6 +69,8 @@ latexmk -pdf veil.tex
 | Trapdoor carrier | 8426 B, 1155 B square | `td_demo.py` |
 | Sign / verify at n=4 | 2.4 ms / 1.9 ms | `cost_model.py` |
 | Sign / verify at n=64 | 44.6 ms / 32.8 ms | `veil_core.py` (loop) |
+| C NTT / INTT / sparse | 4.6 / 4.9 / 6.3 us (11-14x, 6.5x) | `c_kernels.py` |
+| Projected C signing time | 0.51 ms (not a full port) | `c_kernels.py` |
 | MCP log / crypto | 34208 B / 16-24 ms | `mcp_demo.py` |
 | ProVerif | secrecy true, correspondence true | `enroll.pv` |
 

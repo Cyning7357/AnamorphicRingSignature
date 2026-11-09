@@ -12,14 +12,20 @@ import veil_core as vc  # noqa: E402
 p = vc.Params()
 out = pathlib.Path(__file__).with_name("constants.h")
 
-roots, inv_roots = [], []
+roots = []
 stage_offsets = []
 length = 2
 while length <= p.d:
     stage_offsets.append(len(roots))
     roots.extend(int(x) for x in p.roots[length].tolist())
-    inv_roots.extend(int(x) for x in p.inv_roots[length].tolist())
     length *= 2
+
+# the inverse consumes stages from D down to 2, so emit them in that order
+inv_roots = []
+length = p.d
+while length >= 2:
+    inv_roots.extend(int(x) for x in p.inv_roots[length].tolist())
+    length //= 2
 
 lines = [
     "#pragma once",

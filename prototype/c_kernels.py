@@ -9,6 +9,7 @@ from __future__ import annotations
 import ctypes
 import json
 import os
+import tempfile
 import time
 from pathlib import Path
 
@@ -17,7 +18,24 @@ import numpy as np
 import veil_core as vc
 
 ROOT = Path(__file__).resolve().parents[1]
-LIB = ctypes.CDLL(str(ROOT / "c" / "veil_kernels.dll"))
+
+
+def _load():
+    """The workspace may be blocked by an application-control policy; TEMP is not."""
+    candidates = [ROOT / "c" / "veil_kernels.dll",
+                  Path(tempfile.gettempdir()) / "veil_kernels.dll"]
+    last = None
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            return ctypes.CDLL(str(path))
+        except OSError as exc:  # blocked path
+            last = exc
+    raise OSError(f"could not load veil_kernels.dll: {last}")
+
+
+LIB = _load()
 
 _i64p = ctypes.POINTER(ctypes.c_int64)
 _i32p = ctypes.POINTER(ctypes.c_int32)
