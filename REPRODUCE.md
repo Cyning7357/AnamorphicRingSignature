@@ -41,7 +41,7 @@ python c_kernels.py        # equality checks + C-vs-NumPy benchmark
 
 # end-to-end C signer (regular and attributable modes, extract and link)
 cd ../c
-gcc -O3 -shared -static-libgcc -o "$TEMP/veil_sign.dll" veil_sign.c -I . -L D:\Programs\mingw64\lib -lcrypto
+gcc -O3 -shared -static-libgcc -o "$TEMP/veil_sign.dll" veil_sign.c -I . -L "$MINGW/lib" -lcrypto
 strip "$TEMP/veil_sign.dll"   # required here: the unstripped build is blocked by the app-control policy
 # copy libcrypto-3-x64.dll next to it in %TEMP%
 cd ../prototype
@@ -127,6 +127,6 @@ tar xzf le.tar.gz && mv lattice-estimator-main ~/lattice-estimator
 - [x] No author names, affiliations, or e-mail addresses in the code.
 - [ ] Neutral repository name and commit author.
 - [ ] Strip notebook/editor metadata.
-- [ ] Remove absolute paths (`D:\...`) from scripts before publishing.
+- [x] No absolute paths in scripts (`VEIL_MINGW` / `VEIL_OPENSSL_DIR` select the toolchain).
 
 

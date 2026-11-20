@@ -11,7 +11,7 @@ mode (veil_core.sign(embed="fpe")).  Results go to prototype/results/c_sign.json
 Build (the workspace may be blocked by an application-control policy; %TEMP% is
 not):
   gcc -O3 -shared -static-libgcc -o "%TEMP%\\veil_sign.dll" c\\veil_sign.c ^
-      -I c -L D:\\Programs\\mingw64\\lib -lcrypto
+      -I c -L <mingw-prefix>/lib -lcrypto
 
 Run:
   python prototype/c_sign.py --build --reps 200
@@ -26,6 +26,7 @@ import hmac
 import json
 import os
 import platform
+import shutil
 import statistics
 import subprocess
 import sys
@@ -39,22 +40,36 @@ IS_WIN = platform.system() == "Windows"
 LIB_PATH = TEMP / ("veil_sign.dll" if IS_WIN else "veil_sign.so")
 DLL_PATH = LIB_PATH  # historical name used below
 
-MINGW = Path(r"D:\Programs\mingw64")
-GCC = MINGW / "bin" / "gcc.exe"
+def _first_dir(candidates):
+    for candidate in candidates:
+        if candidate and Path(candidate).is_dir():
+            return Path(candidate)
+    return None
+
+
+# Toolchain discovery: set VEIL_MINGW to a mingw-w64 prefix, or rely on gcc
+# being on PATH.  No machine-specific path is baked in.
+MINGW = _first_dir([
+    os.environ.get("VEIL_MINGW"),
+    r"C:\msys64\mingw64",
+    r"C:\mingw64",
+]) or Path(sys.executable).resolve().parents[1]
+
+_GCC_ON_PATH = shutil.which("gcc")
+GCC = Path(_GCC_ON_PATH) if _GCC_ON_PATH else MINGW / "bin" / "gcc.exe"
 OPENSSL_INCLUDE = MINGW / "include"
 OPENSSL_LIB = MINGW / "lib"
 
-# Directories that may contain the OpenSSL 3 runtime DLL (libcrypto-3-x64.dll).
-# The task's build instructions name the mingw64 prefix, but that toolchain
-# ships only libcrypto.dll.a there, so other mingw / Python prefixes are
-# registered as fallbacks.  os.add_dll_directory must be called before
-# ctypes.CDLL, and its handles must stay alive for the process lifetime.
-DLL_SEARCH_DIRS = (
-    MINGW / "bin",
-    Path(r"D:\Programs\Git\mingw64\bin"),
-    Path(sys.base_prefix) / "DLLs",
-    Path(sys.executable).resolve().parent / "DLLs",
-    Path(r"D:\Programs\Conda\Library\bin"),
+# Directories that may contain the OpenSSL 3 runtime library.  Set
+# VEIL_OPENSSL_DIR when libcrypto lives outside the toolchain prefix.
+DLL_SEARCH_DIRS = tuple(
+    path for path in (
+        Path(os.environ["VEIL_OPENSSL_DIR"]) if os.environ.get("VEIL_OPENSSL_DIR") else None,
+        GCC.parent,
+        MINGW / "bin",
+        Path(sys.base_prefix) / "DLLs",
+        Path(sys.executable).resolve().parent / "DLLs",
+    ) if path is not None and path.is_dir()
 )
 
 SIG_C1_BYTES = 32

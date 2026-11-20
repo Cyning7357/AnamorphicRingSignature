@@ -26,7 +26,7 @@
  *
  * Build (Windows, mingw-w64 + OpenSSL 3):
  *   gcc -O3 -shared -static-libgcc -o "%TEMP%\veil_sign.dll" c\veil_sign.c ^
- *       -I c -L D:\Programs\mingw64\lib -lcrypto
+ *       -I c -L <mingw-prefix>/lib -lcrypto
  *
  * Exported C API (driven by prototype/c_sign.py through ctypes):
  *   void  *veil_ctx_new(const uint8_t *seed, size_t seed_len, int n);
