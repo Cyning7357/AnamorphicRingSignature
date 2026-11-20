@@ -29,7 +29,7 @@ Q = 8380417  # 2^23 - 2^13 + 1  (q - 1 = 2^13 * 1023)
 @dataclass
 class Params:
     d: int = 256
-    k: int = 4
+    k: int = 3
     l: int = 4
     eta: int = 1
     tau: int = 39
@@ -430,11 +430,12 @@ def _header(epoch: int, root: bytes, tag: Optional[bytes], ae_ct: Optional[bytes
     return bytes(out)
 
 
-def sign(keys: Keys, pi: int, m: bytes, *,
+def _sign_once(keys: Keys, pi: int, m: bytes, *,
          embed: Optional[str] = None,     # None | "fpe" | "lsb" | "salt" | "ae"
          mu: int = 0, dk: bytes = b"", dk_mac: bytes = b"",
          epoch: int = 0, root: bytes = b"", link: bool = False,
          rng: Optional[np.random.Generator] = None,
+         sampler: str = "uniform",        # "uniform" | "tapered" (ablation)
          domain: bytes = b"VEIL/v3") -> Optional[Sig]:
     p = keys.p
     rng = rng or np.random.default_rng()
@@ -453,8 +454,11 @@ def sign(keys: Keys, pi: int, m: bytes, *,
     tag = link_tag(p, s_pi, epoch) if link else None
     extra = _header(epoch, root, tag, ae_ct, salt, nonce)
 
-    # 1. signer commits: w_pi = A*y
-    Hm = p.H - p.M
+    # 1. signer commits: w_pi = A*y, with y uniform over the mask box
+    #    [-H-M, H+M).  The response z = y + c*s is accepted only when it
+    #    lands in the response box [-H, H), so every accepted z has exactly
+    #    one preimage y and is uniform over the response box, independent of s.
+    Hm = p.H + p.M if sampler == "uniform" else p.H - p.M
     y = [rng.integers(-Hm, Hm, size=p.d, dtype=np.int64) for _ in range(p.l)]
     w_pi = mat_vec(p, keys.A_hat, y)
     c_next = h_chain(m, pi, w_pi, extra, domain)
@@ -499,6 +503,23 @@ def sign(keys: Keys, pi: int, m: bytes, *,
         c1 = c_init
     return Sig(c1=c1, zs=zs, epoch=epoch, tag=tag, ae_ct=ae_ct,
                salt=salt, nonce=nonce)  # type: ignore[arg-type]
+
+
+
+def sign(keys: Keys, pi: int, m: bytes, **kw) -> Optional[Sig]:
+    """Rejection-sample the mask until the response lands in the response box.
+
+    Acceptance probability is (H/(H+M))^{ld}, about 0.86 at t = 19, so the loop
+    terminates after a few iterations with overwhelming probability.
+    """
+    rng = kw.get("rng")
+    if rng is None:
+        rng = np.random.default_rng()
+        kw["rng"] = rng
+    while True:
+        sig = _sign_once(keys, pi, m, **kw)
+        if sig is not None:
+            return sig
 
 
 def verify(keys: Keys, m: bytes, sig: Sig, root: bytes = b"",

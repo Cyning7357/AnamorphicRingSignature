@@ -1,0 +1,306 @@
+{
+  "harness": "prototype/c_sign.py",
+  "dll": "/tmp/veil_sign.so",
+  "params": {
+    "d": 256,
+    "k": 4,
+    "l": 4,
+    "t": 19,
+    "tau": 39,
+    "eta": 1,
+    "q": 8380417,
+    "q_rounds": 16,
+    "domain": "VEIL/v3",
+    "payload_bytes": 32,
+    "mac_bytes": 16,
+    "mu_bits": 384,
+    "resp_bytes": 2432,
+    "c1_bytes": 32,
+    "sig_size_formula": "32 + n * 2432"
+  },
+  "selftest": {
+    "regular": {
+      "n=4": {
+        "size_bytes": 9760,
+        "size_expected": 9760,
+        "size_ok": true,
+        "sign_ok": true,
+        "verify_ok": true,
+        "tamper_c1_rejected": true,
+        "tamper_response_rejected": true,
+        "tamper_message_rejected": true,
+        "tamper_extra_rejected": true,
+        "extract_bot": true,
+        "link_same_member_epoch": true,
+        "link_other_member": true,
+        "link_other_epoch": true,
+        "pass": true
+      },
+      "n=8": {
+        "size_bytes": 19488,
+        "size_expected": 19488,
+        "size_ok": true,
+        "sign_ok": true,
+        "verify_ok": true,
+        "tamper_c1_rejected": true,
+        "tamper_response_rejected": true,
+        "tamper_message_rejected": true,
+        "tamper_extra_rejected": true,
+        "extract_bot": true,
+        "link_same_member_epoch": true,
+        "link_other_member": true,
+        "link_other_epoch": true,
+        "pass": true
+      },
+      "n=16": {
+        "size_bytes": 38944,
+        "size_expected": 38944,
+        "size_ok": true,
+        "sign_ok": true,
+        "verify_ok": true,
+        "tamper_c1_rejected": true,
+        "tamper_response_rejected": true,
+        "tamper_message_rejected": true,
+        "tamper_extra_rejected": true,
+        "extract_bot": true,
+        "link_same_member_epoch": true,
+        "link_other_member": true,
+        "link_other_epoch": true,
+        "pass": true
+      }
+    },
+    "fpe": {
+      "n=4": {
+        "size_bytes": 9760,
+        "size_expected": 9760,
+        "size_ok": true,
+        "sign_ok": true,
+        "verify_ok": true,
+        "tamper_c1_rejected": true,
+        "tamper_response_rejected": true,
+        "tamper_message_rejected": true,
+        "tamper_extra_rejected": true,
+        "extract_payload": true,
+        "extract_signer": true,
+        "link_same_member_epoch": true,
+        "link_other_member": true,
+        "link_other_epoch": true,
+        "pass": true
+      },
+      "n=8": {
+        "size_bytes": 19488,
+        "size_expected": 19488,
+        "size_ok": true,
+        "sign_ok": true,
+        "verify_ok": true,
+        "tamper_c1_rejected": true,
+        "tamper_response_rejected": true,
+        "tamper_message_rejected": true,
+        "tamper_extra_rejected": true,
+        "extract_payload": true,
+        "extract_signer": true,
+        "link_same_member_epoch": true,
+        "link_other_member": true,
+        "link_other_epoch": true,
+        "pass": true
+      },
+      "n=16": {
+        "size_bytes": 38944,
+        "size_expected": 38944,
+        "size_ok": true,
+        "sign_ok": true,
+        "verify_ok": true,
+        "tamper_c1_rejected": true,
+        "tamper_response_rejected": true,
+        "tamper_message_rejected": true,
+        "tamper_extra_rejected": true,
+        "extract_payload": true,
+        "extract_signer": true,
+        "link_same_member_epoch": true,
+        "link_other_member": true,
+        "link_other_epoch": true,
+        "pass": true
+      }
+    }
+  },
+  "benchmark": {
+    "reps": 40,
+    "results": {
+      "regular": {
+        "n=4": {
+          "size_bytes": 9760,
+          "sign": {
+            "mean_ms": 0.15347519999995285,
+            "median_ms": 0.13854150000014442,
+            "min_ms": 0.13072099999966724,
+            "max_ms": 0.28179199999911475,
+            "stdev_ms": 0.040273315924275216,
+            "n": 40
+          },
+          "verify": {
+            "mean_ms": 0.10055110000020129,
+            "median_ms": 0.09924799999971867,
+            "min_ms": 0.09639499999991585,
+            "max_ms": 0.1233420000001928,
+            "stdev_ms": 0.0048139279702004495,
+            "n": 40
+          },
+          "extract": {
+            "mean_ms": 0.2685485750002048,
+            "median_ms": 0.24719900000036432,
+            "min_ms": 0.23630799999985186,
+            "max_ms": 0.5153770000010383,
+            "stdev_ms": 0.049821461020923066,
+            "n": 40
+          }
+        },
+        "n=8": {
+          "size_bytes": 19488,
+          "sign": {
+            "mean_ms": 0.3153048749998,
+            "median_ms": 0.28280699999960746,
+            "min_ms": 0.260113000001283,
+            "max_ms": 0.5294479999999879,
+            "stdev_ms": 0.07976610273143009,
+            "n": 40
+          },
+          "verify": {
+            "mean_ms": 0.21175562499986533,
+            "median_ms": 0.20373899999981404,
+            "min_ms": 0.1948120000001552,
+            "max_ms": 0.2692839999998142,
+            "stdev_ms": 0.01898115408070804,
+            "n": 40
+          },
+          "extract": {
+            "mean_ms": 0.5053460750000127,
+            "median_ms": 0.4809620000001402,
+            "min_ms": 0.46729099999964774,
+            "max_ms": 0.6052859999989835,
+            "stdev_ms": 0.0433729634220505,
+            "n": 40
+          }
+        },
+        "n=16": {
+          "size_bytes": 38944,
+          "sign": {
+            "mean_ms": 0.5963370749999086,
+            "median_ms": 0.5260784999991941,
+            "min_ms": 0.48452999999959445,
+            "max_ms": 1.178046000001487,
+            "stdev_ms": 0.18040576507786793,
+            "n": 40
+          },
+          "verify": {
+            "mean_ms": 0.4109988750002014,
+            "median_ms": 0.4041125000000534,
+            "min_ms": 0.3915089999999566,
+            "max_ms": 0.5275439999987697,
+            "stdev_ms": 0.02527034633117325,
+            "n": 40
+          },
+          "extract": {
+            "mean_ms": 0.9852147499998853,
+            "median_ms": 0.9638570000003455,
+            "min_ms": 0.9313009999996069,
+            "max_ms": 1.169714999999627,
+            "stdev_ms": 0.06168438003590922,
+            "n": 40
+          }
+        }
+      },
+      "fpe": {
+        "n=4": {
+          "size_bytes": 9760,
+          "sign": {
+            "mean_ms": 0.35512304999998356,
+            "median_ms": 0.32028249999971337,
+            "min_ms": 0.3048429999985558,
+            "max_ms": 0.6373449999994563,
+            "stdev_ms": 0.09274511290045806,
+            "n": 40
+          },
+          "verify": {
+            "mean_ms": 0.10429432499994284,
+            "median_ms": 0.10154799999995134,
+            "min_ms": 0.09847499999970921,
+            "max_ms": 0.13314699999966706,
+            "stdev_ms": 0.00776327573395635,
+            "n": 40
+          },
+          "extract": {
+            "mean_ms": 0.24288855000000886,
+            "median_ms": 0.2389140000005341,
+            "min_ms": 0.2329319999994084,
+            "max_ms": 0.30764999999988163,
+            "stdev_ms": 0.013134622518898903,
+            "n": 40
+          }
+        },
+        "n=8": {
+          "size_bytes": 19488,
+          "sign": {
+            "mean_ms": 0.7761584499999419,
+            "median_ms": 0.6813689999995987,
+            "min_ms": 0.6474790000012831,
+            "max_ms": 1.5993610000002434,
+            "stdev_ms": 0.23582979279733593,
+            "n": 40
+          },
+          "verify": {
+            "mean_ms": 0.20181632499984836,
+            "median_ms": 0.1997724999993622,
+            "min_ms": 0.19577599999998085,
+            "max_ms": 0.22141899999894576,
+            "stdev_ms": 0.006113839271161637,
+            "n": 40
+          },
+          "extract": {
+            "mean_ms": 0.5224977250001928,
+            "median_ms": 0.49004749999959074,
+            "min_ms": 0.47090199999999527,
+            "max_ms": 0.805781000000394,
+            "stdev_ms": 0.06700804090634432,
+            "n": 40
+          }
+        },
+        "n=16": {
+          "size_bytes": 38944,
+          "sign": {
+            "mean_ms": 1.6099875000000985,
+            "median_ms": 1.472358000000007,
+            "min_ms": 1.3656740000005385,
+            "max_ms": 3.2594330000002003,
+            "stdev_ms": 0.43446844174007093,
+            "n": 40
+          },
+          "verify": {
+            "mean_ms": 0.4092516250002287,
+            "median_ms": 0.40636550000083815,
+            "min_ms": 0.3962659999992013,
+            "max_ms": 0.4590750000001975,
+            "stdev_ms": 0.013389625330705424,
+            "n": 40
+          },
+          "extract": {
+            "mean_ms": 1.0213046500000544,
+            "median_ms": 0.9797384999998826,
+            "min_ms": 0.9322080000000454,
+            "max_ms": 1.5161919999986395,
+            "stdev_ms": 0.12245652016409272,
+            "n": 40
+          }
+        }
+      }
+    }
+  },
+  "notes": [
+    "Keys (A, s_i), y and the decoys are derived from SHAKE-256(seed, nonce) rather than NumPy's RNG; signatures verify with this C verifier and match Python's serialized size, but are not byte-identical to Python's.",
+    "Only the REGULAR (embed=None) and ATTRIBUTABLE FPE (embed='fpe') modes are implemented.",
+    "Link tags and FPE extraction (feistel_inv) are implemented; Merkle roots, salt/ae modes and constant-time serialization remain Python-only.",
+    "mu = (32-byte payload << 128) | first 16 bytes of HMAC-SHA256(dk_mac, payload); the MAC is computed in Python and passed as 48 bytes."
+  ],
+  "kernel_selftest": true,
+  "merkle_selftest": true,
+  "all_pass": true
+}
