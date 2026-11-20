@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """ctypes harness for the C VEIL ring signer (c/veil_sign.c).
 
 Runs, for n = 4, 8, 16:

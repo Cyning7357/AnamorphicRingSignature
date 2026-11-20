@@ -1,4 +1,4 @@
-﻿/* c/veil_sign.c -- self-contained VEIL v3 ring signing and verification.
+/* c/veil_sign.c -- self-contained VEIL v3 ring signing and verification.
  *
  * Implements the signing and verification path of prototype/veil_core.py for
  * the REGULAR mode (veil_core.sign(embed=None)) and the ATTRIBUTABLE FPE mode

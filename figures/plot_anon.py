@@ -1,4 +1,4 @@
-﻿"""Fig. anonymity: rejection rate and the sampler ablation."""
+"""Fig. anonymity: rejection rate and the sampler ablation."""
 
 import json
 from pathlib import Path
