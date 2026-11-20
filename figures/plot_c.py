@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Figures for the C port and the detector sweep, from the JSON results."""
 
 from __future__ import annotations
@@ -33,9 +33,9 @@ ns = [4, 8, 16]
 py_sign = [2.20, 4.54, 14.99]
 py_verify = [1.59, 3.24, 11.20]
 py_extract = [1.93, 3.44, 9.61]
-c_sign = [c["benchmark"]["results"]["fpe"][f"n={n}"]["sign"]["mean_ms"] for n in ns]
-c_verify = [c["benchmark"]["results"]["fpe"][f"n={n}"]["verify"]["mean_ms"] for n in ns]
-c_extract = [c["benchmark"]["results"]["fpe"][f"n={n}"]["extract"]["mean_ms"] for n in ns]
+c_sign = [c["benchmark"]["results"]["fpe"][f"n={n}"]["sign"]["median_ms"] for n in ns]
+c_verify = [c["benchmark"]["results"]["fpe"][f"n={n}"]["verify"]["median_ms"] for n in ns]
+c_extract = [c["benchmark"]["results"]["fpe"][f"n={n}"]["extract"]["median_ms"] for n in ns]
 
 BLUE, RED = "#4c72b0", "#c44e52"
 fig, (a1, a2) = plt.subplots(2, 1, figsize=(3.4, 4.4))
@@ -100,5 +100,6 @@ ax.set_xlabel("detector AUC")
 ax.text(0.505, -0.9, "chance", fontsize=6.5, color="#333333")
 save(fig, "fig-auc")
 print("wrote fig-c and fig-auc")
+
 
 
